@@ -146,12 +146,10 @@ jobs:
       fail-fast: false
       matrix:
         edition: ["", "-ee"]
+        platform: ["amd64"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -166,6 +164,7 @@ jobs:
         env:
           PACKAGE_BASEURL: ${{ secrets.REPO_BASEURL }}
           PRODUCT_EDITION: ${{ matrix.edition }}
+          PLATFORM: linux/${{ matrix.platform }}
         run: |
            set -eux
            export DOCKERFILE=Dockerfile
